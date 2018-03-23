@@ -1,0 +1,265 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+      <title>NKGS</title>
+      <link href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.2.0/animate.min.css" rel="stylesheet" />
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+      <link type="text/css" href="wgo/wgo.player.css" rel="stylesheet" />
+      <link href="css/signin.css" rel="stylesheet" />
+      <link href="css/game.css" rel="stylesheet" />
+      <link href="css/goapp.css" rel="stylesheet" />
+
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+      <script src="bootstrap-notify/bootstrap-notify.js"></script>
+      <script src="node_modules/socket.io/socket.io.js"></script>
+
+      <script src="wgo/wgo.js"></script>
+      <script type="text/javascript" src="wgo/sgfparser.js"></script>
+      <script type="text/javascript" src="wgo/kifu.js"></script>
+      <script type="text/javascript" src="wgo/player.js"></script>
+      <script type="text/javascript" src="wgo/scoremode.js"></script>
+      <script src="game-player.js"></script>
+      <script src="game-tree-viewer.js"></script>
+      <script src="game-estimator.js"></script>
+      <script src="game.js"></script>
+      <script src="goapp-routing.js"></script>
+      <script src="goapp.js"></script>
+ </head>
+
+ <body>
+    
+     <div class="container" id="nkgs-client">
+         <nav class="navbar navbar-default navbar-fixed-top" id="status-bar">
+             <div class="container">
+                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                     <ul class="nav navbar-nav">
+                         <li class="dropdown">
+                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true" style="font-size:1.5em;"></span></a>
+                             <ul class="dropdown-menu">
+                                 <li><a href="#">Play</a></li>
+                                 <li><a href="#">Practice</a></li>
+                                 <li><a href="#">Profile</a></li>
+                             </ul>
+                         </li>
+
+                         <li class="dropdown" id="game-dropdown-menu">
+                             <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="game-dropdown-menu-name">
+                                 Game 1
+                                 <span class="caret"></span>
+                             </a>
+                             <ul class="dropdown-menu">
+                                 <li><a href="#" id="game-menu-close">Close</a></li>
+                                 <li><a href="#" id="game-menu-save">Save</a></li>
+                                 <li><a href="#">Download</a></li>
+                             </ul>
+                         </li>
+                     </ul>
+                     <p class="navbar-text navbar-right">Signed in as <span class="label label-primary" id="status-bar-username"></span></p>
+                     <p class="navbar-text navbar-right">Game in turn <span class="badge" id="status-bar-games"></span></p>
+                 </div><!-- /.navbar-collapse -->
+
+             </div>
+         </nav>
+
+         <!-- Login route -->
+         <div id="login-page">
+             <form class="form-signin" id="login-form" enctype="application/x-www-form-urlencoded">
+                 <h2 class="form-signin-heading">NK Go Server</h2>
+                 <label for="inputUsername" class="sr-only">Username</label>
+                 <input type="text" name="username" id="inputUsername" class="form-control" placeholder="Username" required="" autofocus="" />
+                 <label for="inputPassword" class="sr-only">Password</label>
+                 <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required="" />
+                 <div class="checkbox">
+                     <label>
+                         <input type="checkbox" value="remember-me" /> Remember me
+                     </label>
+                 </div>
+                 <button class="btn btn-lg btn-warning btn-block" type="submit" id="submit-login">Sign in</button>
+             </form>
+         </div>
+      
+         <!-- Main screeen route -->
+         <div id="home-page">
+             <div class="row">
+                 <!-- Thumbnail of games-->
+                 <div class="col-md-9">
+                     <div class="panel panel-warning" >
+                         <div class="panel-heading">
+                             <h3 class="panel-title">Your games</h3>
+                         </div>
+                         <div class="panel-body" id="games-grid">
+                         </div>
+                      </div>
+
+                     <div class="panel panel-warning">
+                         <div class="panel-heading">
+                             <h3 class="panel-title pull-left">Game requests</h3>
+                             <button class="btn btn-warning pull-right" id="btn-challenge-game" data-toggle="modal" data-target="#game-req-modal">Challenge for a game</button>
+                             <div class="clearfix"></div>
+                         </div>
+                         <div class="panel-body" id="pending-games-list">
+                             <table class="table table-hover" id="game-req-table">
+                                 <thead>
+                                     <tr>
+                                         <th class="col-md-3">Opponent</th>
+                                         <th class="col-md-6">Game description</th>
+                                         <th class="col-md-3">Action</th>
+                                     </tr>
+                                 </thead>
+                                 <tbody>
+                                 </tbody>
+                             </table>
+
+                         </div>
+                     </div>
+                 </div>
+
+                 <!-- List of online users-->
+                 <div class="col-md-3">
+                     <div class="panel panel-warning">
+                         <div class="panel-heading">
+                             <h3 class="panel-title">Online players</h3>
+                         </div>
+                         <div class="panel-body">
+                             <!--<div class="list-group" id="online-player-list"></div>-->
+                             <ul class="media-list" id="online-player-list"> </ul>
+                             
+                         </div>
+                     </div>
+                 </div>
+
+             </div>
+         </div>
+
+         <!-- Play screen route-->
+
+         <div id="game-page">
+             <div class="row">
+                 <div class="col-md-8">
+                     <div class="panel panel-warning">
+                         <div class="panel-heading">
+                            
+                         </div>
+                         <div class="panel-body">
+                             <div id="player" style="width: 600px" tabindex="0"></div>
+                         </div>
+                        <div class="panel-footer" id="game-menu-panel">
+                             <div class="input-group-btn" id="game-playing-btn-grp">
+                                 <button class="btn btn-default" id="btn-submit-move">Submit move</button>
+                                 <button class="btn btn-default" id="btn-pass">Pass</button>
+                                 <button class="btn btn-default" id="btn-undo">Undo</button>
+                             </div>
+                            
+                         </div>
+                        
+                     </div>
+                </div>
+                 <div class="col-md-4">
+                     <div class="panel panel-warning panel-game-info" id="game-info-panel">
+                         <div class="panel-heading">
+                             <h3 class="panel-title">Game Info</h3>
+                         </div>
+                         <div class="panel-body go-game-info">
+                             <div class="row">
+                                 <div class="col-xs-6">
+                                     <h4 id="black-username"></h4>
+                                     <img src="images/black-stone.png" />
+                                     <h4 id="black-capture"></h4>
+                                     <h4 id="black-time-left"></h4>
+                                 </div>
+                                 <div class="col-xs-6">
+                                     <h4 id="white-username"></h4>
+                                     <img src="images/white-stone.png" />
+                                     <h4 id="white-capture"></h4>
+                                     <h4 id="white-time-left"></h4>
+                                 </div>
+                             </div>
+                             <h4 id="game-turn">Black to move</h4>
+                         </div>
+                         <div class="panel-footer">
+                             <div class="input-group-btn" id="game-manipulation-playing-mode">
+                                 <button class="btn btn-default" id="btn-analyze-game">Analyze game</button>
+                                 <button class="btn btn-default" id="btn-estimate-score">Estimate score</button>
+                             </div>
+                         </div>
+                     </div>
+
+                     <div class="panel panel-warning" id="analyzing-game-panel">
+                         <div class="panel-heading">
+                             <h3 class="panel-title">Analyze game</h3>
+                         </div>
+                         <div class="panel-body" id="tree-viewer">
+                             <!--<div id="tree-viewer" style="width:300px"> </div>-->
+                         </div>
+                         <div class="panel-footer">
+                             <div class="input-group-btn" id="game-manipulation-analyzing-mode">
+                                 <button class="btn btn-default" id="btn-finish-analyzing-game">Finish analyzing</button>
+                             </div>
+                         </div>
+                     </div>
+
+                     <div class="panel panel-warning panel-game-info" id="estimate-game-score-panel">
+                         <div class="panel-heading">
+                             <h3 class="panel-title">Analyze game</h3>
+                         </div>
+                         <div class="panel-body" id="score-result">
+
+                         </div>
+                         <div class="panel-footer">
+                             <div class="input-group-btn" id="game-manipulation-estimating-mode">
+                                 <button class="btn btn-default" id="btn-finish-scoring-game">Finish estimation</button>
+                             </div>
+                         </div>
+                     </div>
+                     <div class="panel panel-warning">
+                         <div class="panel-heading">
+                             <span class="glyphicon glyphicon-comment"></span> Chat
+                         </div>
+                         <div class="panel-body msg_container_base" id="chat-content">
+                             <!-- <ul class="list-group" id="chat-messages"></ul>-->
+                         </div>
+                         <div class="panel-footer">
+                             <div class="input-group">
+                                 <input id="chat-msg-input" type="text" class="form-control input-sm" placeholder="Type your message here..." />
+                                 <span class="input-group-btn">
+                                     <button class="btn btn-warning btn-sm" id="btn-send-msg">
+                                         Send
+                                     </button>
+                                 </span>
+                             </div>
+                         </div>
+                     </div>
+
+                 </div>
+                          
+                     </div>
+                 </div>
+     </div>
+
+     <div class="modal fade" id="game-req-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+         <div class="modal-dialog" role="document">
+             <div class="modal-content">
+                 <div class="modal-header">
+                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                         <span aria-hidden="true">&times;</span>
+                     </button>
+                     <h4 class="modal-title" id="myModalLabel">Challenge a game</h4>
+                 </div>
+                 <div class="modal-body">
+                     <div class="form-group">
+                         <label for="recipient-name" class="form-control-label">Recipient:</label>
+                         <input type="text" class="form-control" id="game-req-username-input" />
+                     </div>
+                 </div>
+                 <div class="modal-footer">
+                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                     <button type="button" class="btn btn-primary" id="btn-send-game-req">Send challenge</button>
+                 </div>
+             </div>
+         </div>
+     </div>
+</body>
+</html>

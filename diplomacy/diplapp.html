@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="css/signin.css" rel="stylesheet" />
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/snap.svg/0.5.1/snap.svg-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react-dom.js"></script>
+
+    <script src="node_modules/socket.io/socket.io.js"></script>
+
+    <script src="map.js"></script>
+    <script src="game.js"></script>
+    <script src="svg-board.js"></script>
+    <script src="react-ui/location-selector.js"></script>
+    <script src="react-ui/order-selector.js"></script>  
+    <script src="react-ui/order-type-selector.js"></script>
+    <script src="react-ui/unit-selector.js"></script>
+    <script src="react-ui/order-item.js"></script>  
+    <script src="react-ui/power-panel.js"></script>
+    <script src="routing/app-routing.js"></script>
+    <script src="diplapp.js"></script>
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
+</head>
+<body>
+    <div class="container" id="diplomacy-client">
+        <div id="login-page">
+            <form class="form-signin" id="login-form" enctype="application/x-www-form-urlencoded">
+                <h2 class="form-signin-heading">Diplomacy Server</h2>
+                <label for="inputUsername" class="sr-only">Username</label>
+                <input type="text" name="username" id="inputUsername" class="form-control" placeholder="Username" required="" autofocus="" />
+                <label for="inputPassword" class="sr-only">Password</label>
+                <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required="" />
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" value="remember-me" /> Remember me
+                    </label>
+                </div>
+                <button class="btn btn-lg btn-warning btn-block" type="submit" id="submit-login">Sign in</button>
+            </form>
+        </div>
+
+        <div id="game-page">
+            <div class="row">
+                <div class="panel panel-warning">
+                    <div class="panel-heading">
+
+                    </div>
+                    <div class="panel-body">
+                        <svg id="game-board" width="900px" height="800px" transform="scale(1.0)">
+                        </svg>
+
+                    </div>
+                    <div class="panel-footer" id="game-menu-panel">
+
+                    </div>
+
+                </div>          
+            </div>
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="panel panel-warning panel-game-info" id="game-info-panel">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Game Info</h3>
+                        </div>
+                        <div class="panel-body go-game-info" id="to-do-list">
+
+
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div id="power-panel"></div>
+                </div>
+            </div>
+               
+           
+        </div>
+
+        
+    </div>
+   
+</body>
+</html>

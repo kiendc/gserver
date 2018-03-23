@@ -1,0 +1,1 @@
+{"port":3000,"userConf" : "conf.txt","gameConf":"conf.txt", "reqConf": "conf.txt", "botConf":"conf.txt"}

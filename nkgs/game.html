@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>NKGS</title>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      
+      <script src="wgo/wgo.min.js"></script>
+      <script src="node_modules/socket.io/socket.io.js"></script>
+
+      <script src="nkgsgame.js"></script>
+
+   
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <div id="board">
+                    <!-- board will go here -->
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div id="game-info">
+                    <p>your color: <span id="stone-color"></span></p>
+                    <p>Game turn: <span id="game-turn"></span></p>
+                    <p><button type="button" id="submit-move">Submit move</button></p>
+                </div>
+
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1">@</span>
+                    <input type="text" class="form-control" placeholder="Chat" aria-describedby="basic-addon1" />
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    
+</body>
+</html>
